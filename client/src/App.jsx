@@ -6,6 +6,11 @@ import About from "./pages/About";
 import Header from "./component/Header";
 import Signup from "./pages/Signup";
 import Footer from "./component/Footer";
+import PrivateRoute from "./pages/PrivateRoute";
+import Dashboard from "./pages/Dashboard";
+import Search from "./pages/Search";
+import OnlyAdminPrivateRoute from "./component/OnlyAdminPrivateRoute";
+import CreatePost from "./pages/CreatePost";
 
 function App() {
   return (
@@ -16,6 +21,14 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
+        <Route path="/search" element={<Search />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<OnlyAdminPrivateRoute />}>
+          <Route path="/create-post" element={<CreatePost />} />
+          {/* <Route path="/update-post/:postId" element={<UpdatePost />} /> */}
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>
