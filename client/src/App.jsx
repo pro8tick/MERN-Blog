@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import About from "./pages/About";
 import Header from "./component/Header";
+import Signup from "./pages/Signup";
+import Footer from "./component/Footer";
 
 function App() {
   return (
@@ -12,8 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/sign-in" element={<Signin />} />
+        <Route path="/sign-up" element={<Signup />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
