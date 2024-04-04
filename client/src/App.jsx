@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Search from "./pages/Search";
 import OnlyAdminPrivateRoute from "./component/OnlyAdminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
+import PostPage from "./pages/PostPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
           {/* <Route path="/update-post/:postId" element={<UpdatePost />} /> */}
+          <Route path="/post/:postSlug" element={<PostPage />} />
         </Route>
       </Routes>
       <Footer />

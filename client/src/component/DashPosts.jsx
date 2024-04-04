@@ -11,6 +11,7 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -136,7 +137,7 @@ export default function DashPosts() {
           {showMore && (
             <button
               onClick={handleShowMore}
-              className="w-full text-teal-500 self-center text-sm py-7"
+              className="w-full text-blue-600 self-center text-sm py-7"
             >
               Show more
             </button>
