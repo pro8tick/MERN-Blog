@@ -10,14 +10,23 @@ export default function Search() {
     category: "uncategorized",
   });
 
-  console.log(sidebarData);
   const [posts, setPosts] = useState([]);
+  const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
   const location = useLocation();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const res = await fetch("/api/category");
+      const data = await res.json();
+      setCategory(data);
+    };
+    fetchCategory();
+  }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -102,7 +111,7 @@ export default function Search() {
 
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
+      <div className="p-7 border-b shadow-md shadow-cyan-500/50 md:border-r md:min-h-screen">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex   items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
@@ -130,10 +139,15 @@ export default function Search() {
               value={sidebarData.category}
               id="category"
             >
-              <option value="uncategorized">Politics</option>
-              <option value="reactjs">Regional</option>
-              <option value="nextjs">Culture</option>
-              <option value="javascript">Sports</option>
+              <option value="uncategorized" id="uncat">
+                Not Selected
+              </option>
+              {category &&
+                category.map((category) => (
+                  <option value={category.value} id={category.value}>
+                    {category.label}
+                  </option>
+                ))}
             </Select>
           </div>
           <Button type="submit" outline gradientDuoTone="purpleToPink">
@@ -142,7 +156,7 @@ export default function Search() {
         </form>
       </div>
       <div className="w-full">
-        <h1 className="text-3xl font-semibold sm:border-b border-gray-500 p-3 mt-5 ">
+        <h1 className="text-3xl font-semibold  shadow-inner  shadow-cyan-200/50 p-3 mt-5 ">
           Posts results:
         </h1>
         <div className="p-7 flex flex-wrap gap-4">

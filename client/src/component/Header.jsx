@@ -15,6 +15,22 @@ function Header() {
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
   const handleSignout = async () => {
     try {
       const res = await fetch("/api/user/signout", {
@@ -42,17 +58,24 @@ function Header() {
         </span>
         Blog
       </Link>
-      <form>
+      <form onSubmit={handleSubmit} className="relative">
         <TextInput
           type="text"
           placeholder="Search.."
           rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
-        ></TextInput>
+          className="hidden lg:inline "
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button
+          className="absolute inset-y-0 right-0 w-16 bg-transparent cursor-pointer"
+          type="submit"
+        />
       </form>
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
         <AiOutlineSearch />
       </Button>
+
       <div className="flex gap-2 md:order-2">
         <Button
           className="w-12 h-10 hidden sm:inline"

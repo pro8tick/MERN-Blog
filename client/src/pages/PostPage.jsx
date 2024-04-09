@@ -58,22 +58,33 @@ export default function PostPage() {
       </div>
     );
   return (
-    <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
+    <main className="mx-auto w-11/12 md:w-9/12 lg:w-7/10 xl:w-8/10 bg-white dark:bg-[#2D4D6C] shadow-md rounded-lg overflow-hidden min-h-screen">
       <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
         {post && post.title}
       </h1>
-      <Link
-        to={`/search?category=${post && post.category}`}
-        className="self-center mt-5"
-      >
-        <Button color="gray" pill size="xs">
-          {post && post.category}
-        </Button>
-      </Link>
+      <div className="flex justify-between px-10">
+        <Link
+          to={`/search?category=${post && post.category}`}
+          className="self-center mt-5"
+        >
+          <Button color="gray" pill size="xs">
+            {post && post.category}
+          </Button>
+        </Link>
+        <Link
+          to={`/search?author=${post && post.author}`}
+          className="self-center mt-5 flex"
+        >
+          <span className="text-xs pt-1">Author - </span>
+          <Button color="gray" pill size="xs">
+            {post && post.author}
+          </Button>
+        </Link>
+      </div>
       <img
         src={post && post.image}
         alt={post && post.title}
-        className="mt-10 p-3 max-h-[600px] w-full object-cover"
+        className="mt-2 p-10  max-h-[600px] w-full object-cover mx-auto max-w-2xl"
       />
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>

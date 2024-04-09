@@ -12,10 +12,13 @@ import Search from "./pages/Search";
 import OnlyAdminPrivateRoute from "./component/OnlyAdminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
+import UpdatePost from "./pages/UpdatePost";
+import ScrollToTop from "./component/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,7 +31,7 @@ function App() {
         </Route>
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/create-post" element={<CreatePost />} />
-          {/* <Route path="/update-post/:postId" element={<UpdatePost />} /> */}
+          <Route path="/update-post/:postId" element={<UpdatePost />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
         </Route>
       </Routes>
