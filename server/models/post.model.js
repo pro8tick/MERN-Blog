@@ -22,6 +22,7 @@ const postSchema = new mongoose.Schema(
     author: {
       type: String,
       required: true,
+      trim: true,
     },
     image: {
       type: String,
@@ -31,6 +32,7 @@ const postSchema = new mongoose.Schema(
     category: {
       type: String,
       default: "uncategorized",
+      trim: true,
     },
     slug: {
       type: String,
@@ -48,7 +50,11 @@ postSchema.pre("save", async function (next) {
     // Create new category and save to Category model
     const newCategory = new Category({
       label: this.category,
-      value: this.category.toLowerCase().trim().replace(/\s+/g, "-"), // Convert to lowercase and replace spaces with hyphens
+      value: this.category
+        .split(" ")
+        .join("-")
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9-]/g, ""), // Convert to lowercase and replace spaces with hyphens
     });
 
     await newCategory.save();
@@ -62,8 +68,9 @@ postSchema.post("save", async function (doc, next) {
     // Check if the subtitle already exists
     if (!doc.subtitle) {
       // Generate subtitle by taking a part of the content as preview
-      const maxLength = 50; // Maximum length for the preview
-      let preview = doc.content;
+      const maxLength = 100; // Maximum length for the preview
+      const contentWithoutTags = doc.content.replace(/<[^>]+>/g, "");
+      let preview = contentWithoutTags;
 
       if (preview.length > maxLength) {
         preview = preview.substring(0, maxLength).trim() + "...";

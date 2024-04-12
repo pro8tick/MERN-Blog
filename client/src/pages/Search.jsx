@@ -30,9 +30,9 @@ export default function Search() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
+    const searchTermFromUrl = urlParams.get("searchTerm") && "";
     const sortFromUrl = urlParams.get("sort");
-    const categoryFromUrl = urlParams.get("category");
+    const categoryFromUrl = urlParams.get("category").trim();
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
@@ -41,10 +41,11 @@ export default function Search() {
         category: categoryFromUrl,
       });
     }
-
+    console.log(sidebarData);
     const fetchPosts = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
+
       const res = await fetch(`/api/post/getposts?${searchQuery}`);
       if (!res.ok) {
         setLoading(false);
@@ -113,7 +114,7 @@ export default function Search() {
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b shadow-md shadow-cyan-500/50 md:border-r md:min-h-screen">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-          <div className="flex   items-center gap-2">
+          <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
               Search Term:
             </label>
@@ -144,7 +145,7 @@ export default function Search() {
               </option>
               {category &&
                 category.map((category) => (
-                  <option value={category.value} id={category.value}>
+                  <option value={category.label} id={category.value}>
                     {category.label}
                   </option>
                 ))}
