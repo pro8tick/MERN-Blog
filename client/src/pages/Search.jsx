@@ -145,7 +145,7 @@ export default function Search() {
               </option>
               {category &&
                 category.map((category) => (
-                  <option value={category.label} id={category.value}>
+                  <option value={category.value} id={category.value}>
                     {category.label}
                   </option>
                 ))}

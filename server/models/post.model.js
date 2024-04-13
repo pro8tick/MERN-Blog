@@ -39,12 +39,17 @@ const postSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    categorySlug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
   { timestamps: true }
 );
 
 postSchema.pre("save", async function (next) {
-  const categoryExists = await Category.exists({ label: this.category });
+  const categoryExists = await Category.exists({ value: this.categorySlug });
 
   if (!categoryExists) {
     // Create new category and save to Category model
