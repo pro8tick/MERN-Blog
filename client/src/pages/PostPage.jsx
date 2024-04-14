@@ -64,7 +64,7 @@ export default function PostPage() {
       </h1>
       <div className="flex justify-between px-10">
         <Link
-          to={`/search?category=${post && post.category}`}
+          to={`/search?category=${post && post.categorySlug}`}
           className="self-center mt-5"
         >
           <Button color="gray" pill size="xs">

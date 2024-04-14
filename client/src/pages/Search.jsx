@@ -32,7 +32,7 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm") && "";
     const sortFromUrl = urlParams.get("sort");
-    const categoryFromUrl = urlParams.get("category").trim();
+    const categoryFromUrl = urlParams.get("category");
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,

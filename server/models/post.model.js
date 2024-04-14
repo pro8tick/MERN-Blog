@@ -42,30 +42,28 @@ const postSchema = new mongoose.Schema(
     categorySlug: {
       type: String,
       required: true,
-      unique: true,
     },
   },
   { timestamps: true }
 );
 
-postSchema.pre("save", async function (next) {
-  const categoryExists = await Category.exists({ value: this.categorySlug });
+postSchema.post("save", async function (doc, next) {
+  try {
+    const categoryExists = await Category.exists({ value: doc.categorySlug });
 
-  if (!categoryExists) {
-    // Create new category and save to Category model
-    const newCategory = new Category({
-      label: this.category,
-      value: this.category
-        .split(" ")
-        .join("-")
-        .toLowerCase()
-        .replace(/[^a-zA-Z0-9-]/g, ""), // Convert to lowercase and replace spaces with hyphens
-    });
+    if (!categoryExists) {
+      // Create new category and save to Category model
+      const newCategory = new Category({
+        label: doc.category,
+        value: doc.categorySlug, // Convert to lowercase and replace spaces with hyphens
+      });
 
-    await newCategory.save();
+      await newCategory.save();
+    }
+    next();
+  } catch (err) {
+    next(err);
   }
-
-  next();
 });
 
 postSchema.post("save", async function (doc, next) {
@@ -73,7 +71,7 @@ postSchema.post("save", async function (doc, next) {
     // Check if the subtitle already exists
     if (!doc.subtitle) {
       // Generate subtitle by taking a part of the content as preview
-      const maxLength = 100; // Maximum length for the preview
+      const maxLength = 200; // Maximum length for the preview
       const contentWithoutTags = doc.content.replace(/<[^>]+>/g, "");
       let preview = contentWithoutTags;
 

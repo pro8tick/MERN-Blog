@@ -48,15 +48,16 @@ function Header() {
   };
 
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="border-b-2 dark:bg-gradient-to-r from-gray-500 via-gray-800 to-gray-500">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:white"
       >
-        <span className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 px-2 py-1 rounded-lg text-white">
-          Sarthak's
-        </span>
-        Blog
+        <img
+          src="/logo-no-background.png"
+          alt="I am live"
+          className="w-[10rem] h-auto"
+        />
       </Link>
       <form onSubmit={handleSubmit} className="relative">
         <TextInput

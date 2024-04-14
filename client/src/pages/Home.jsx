@@ -3,6 +3,11 @@ import CallToAction from "../component/CallToAction";
 import { useEffect, useState } from "react";
 import PostCard from "../component/PostCard";
 
+function stripHtmlTags(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
+
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -61,7 +66,7 @@ export default function Home() {
                 <img
                   src={post.image} // Assuming post.image contains the image URL
                   alt={post.title}
-                  className={`w-full h-48 object-cover filter hue-rotate-90 ${
+                  className={`w-full h-48 object-cover filter  ${
                     i === 0 || i === 4 || i === 5 ? "md:w-1/2" : ""
                   } ${i === 1 || i === 3 ? "hidden md:block" : ""}`}
                 />
@@ -76,15 +81,9 @@ export default function Home() {
                   {post.author}
                 </p>
                 <p className="text-sm text-gray-700 dark:text-green-100 line-clamp-4">
-                  {post.content}
+                  {stripHtmlTags(post.content)}
                 </p>
               </div>
-              <Link
-                to={`/post/${post.slug}`}
-                className="z-10 group-hover:bottom-0 absolute bottom-[-200px] left-0 right-0 border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition-all duration-300 text-center py-2 rounded-md !rounded-tl-none m-2"
-              >
-                Read article
-              </Link>
             </Link>
           </div>
         ))}
