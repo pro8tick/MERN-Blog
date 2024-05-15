@@ -3,19 +3,21 @@ import { Link } from "react-router-dom";
 
 export default function CallToAction() {
   return (
-    <div className="flex flex-col sm:flex-row p-3 border border-teal-500 justify-center items-center rounded-tl-3xl rounded-br-3xl text-center">
+    <div className="flex flex-col sm:flex-row p-3  h-[100vh] justify-center items-center rounded-tl-3xl rounded-br-3xl text-center sticky top-0 bg-[#f5be6b11]  ">
       <div className="flex-1 justify-center flex flex-col">
-        <h2 className="text-2xl">Liked Our Post!</h2>
-        <p className="text-gray-500 my-2">Keep up Reading !!</p>
+        <h2 className="text-3xl md:text-6xl uppercase font-extrabold text-wrap my-7 text-[#d4accc]">
+          By Odisha, for odisha and of the odisha{" "}
+        </h2>
+
         <Button
-          gradientDuoTone="purpleToPink"
-          className="rounded-tl-xl rounded-bl-none"
+          gradientDuoTone="redToYellow"
+          className="rounded-tl-xl rounded-bl-none bg-transparent"
         >
-          <Link to="/">Checkout these new posts now.</Link>
+          <Link to="/login">Join Now.</Link>
         </Button>
       </div>
-      <div className="p-7 flex-1">
-        <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Google-Blog-Post-Image-6-2x_D6.max-1200x676.format-webp.webp" />
+      <div className="p-7 flex-1 relative">
+        <img src="/wallpaper2.avif" />
       </div>
     </div>
   );

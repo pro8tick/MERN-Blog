@@ -2,10 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 400;
+@font-face {
+    font-family: 'sofia-regular';
+    /* Choose a name for your font */
+    src: url('Sofia Pro Regular Az.otf') format('opentype');
+    /* Path to your font file */
+    /* You can add additional font properties here */
+}
 
+@font-face {
+    font-family: 'sofia-medium';
+    /* Choose a name for your font */
+    src: url('Sofia Pro Medium Az.otf') format('opentype');
+    /* Path to your font file */
+    /* You can add additional font properties here */
+}
+
+@font-face {
+    font-family: 'sofia-light';
+    /* Choose a name for your font */
+    src: url('Sofia Pro Light Az.otf') format('opentype');
+    /* Path to your font file */
+    /* You can add additional font properties here */
+}
+
+
+
+
+* {
+    font-family: 'sofia-light', Times, serif;
+    font-size: 1.05rem;
 }
 
 body {
@@ -17,7 +43,8 @@ h2,
 h3,
 h4,
 h5 {
-    font-weight: "700";
+    font-family: 'sofia-medium', Times, serif;
+
 }
 
 .ql-editor {
@@ -31,14 +58,14 @@ h5 {
 
 .post-content h1 {
     font-size: 1.5rem;
-    font-weight: 600;
-    font-family: sans-serif;
+    /* font-weight: 600; */
+    font-family: 'sofia-medium';
     margin: 1.5rem 0;
 }
 
 .post-content h2 {
     font-size: 1.4rem;
-    font-family: sans-serif;
+    font-family: 'sofia-medium';
     margin: 1.5rem 0;
 }
 
@@ -53,4 +80,15 @@ h5 {
 
 .dark .post-content a {
     color: red;
+}
+
+@media only screen and (max-width: 430px) {
+
+    /* CSS rules for mobile screens */
+    .smallwrapper {
+        width: 95vw;
+        margin-left: auto;
+        margin-right: auto;
+        /* Additional styles for mobile */
+    }
 }

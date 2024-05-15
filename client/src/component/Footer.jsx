@@ -9,7 +9,7 @@ import {
 } from "react-icons/bs";
 export default function FooterCom() {
   return (
-    <Footer container className="border border-t-8 border-teal-500">
+    <Footer container className=" bg-[#e6b798]">
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid w-full justify-between sm:flex md:grid-cols-1">
           <div className="mt-5">
@@ -26,7 +26,7 @@ export default function FooterCom() {
           <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">
             <div>
               <Footer.Title title="About" />
-              <Footer.LinkGroup col>
+              <Footer.LinkGroup col className="text-black">
                 <Footer.Link
                   href="https://64c3a187d4eb2d61ce15f705--lustrous-croquembouche-cf331a.netlify.app/#about"
                   target="_blank"
@@ -45,7 +45,7 @@ export default function FooterCom() {
             </div>
             <div>
               <Footer.Title title="Follow us" />
-              <Footer.LinkGroup col>
+              <Footer.LinkGroup col className="text-black">
                 <Footer.Link
                   href="https://www.instagram.com/"
                   target="_blank"
@@ -57,8 +57,8 @@ export default function FooterCom() {
               </Footer.LinkGroup>
             </div>
             <div>
-              <Footer.Title title="Legal" />
-              <Footer.LinkGroup col>
+              <Footer.Title title="Info" />
+              <Footer.LinkGroup col className="text-black">
                 <Footer.Link href="#">Privacy Policy</Footer.Link>
                 <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
               </Footer.LinkGroup>
@@ -69,7 +69,7 @@ export default function FooterCom() {
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright
             href="#"
-            by="Sarthak's blog"
+            by="I am Live, All Rights Reserved."
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">

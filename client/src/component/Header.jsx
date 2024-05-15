@@ -8,13 +8,22 @@ import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
 function Header() {
   const path = useLocation().pathname;
+  const [category, setCategory] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const res = await fetch("/api/category");
+      const data = await res.json();
+      setCategory(data);
+    };
 
+    fetchCategory();
+  }, []);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -48,82 +57,95 @@ function Header() {
   };
 
   return (
-    <Navbar className="border-b-2 dark:bg-gradient-to-r from-gray-500 via-gray-800 to-gray-500">
-      <Link
-        to="/"
-        className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:white"
-      >
-        <img
-          src="/logo-no-background.png"
-          alt="I am live"
-          className="w-[10rem] h-auto"
-        />
-      </Link>
-      <form onSubmit={handleSubmit} className="relative">
-        <TextInput
-          type="text"
-          placeholder="Search.."
-          rightIcon={AiOutlineSearch}
-          className="hidden lg:inline "
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button
-          className="absolute inset-y-0 right-0 w-16 bg-transparent cursor-pointer"
-          type="submit"
-        />
-      </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
-        <AiOutlineSearch />
-      </Button>
-
-      <div className="flex gap-2 md:order-2">
-        <Button
-          className="w-12 h-10 hidden sm:inline"
-          color="gray"
-          pill
-          onClick={() => dispatch(toggleTheme())}
+    <>
+      <Navbar className="border-b-2 dark:bg-gradient-to-r from-gray-500 via-gray-800 to-gray-500">
+        <Link
+          to="/"
+          className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:white"
         >
-          {theme === "light" ? <FaSun /> : <FaMoon />}
+          <img
+            src="/logo-no-background.png"
+            alt="I am live"
+            className="w-[10rem] h-auto"
+          />
+        </Link>
+        <form onSubmit={handleSubmit} className="relative">
+          <TextInput
+            type="text"
+            placeholder="Search.."
+            rightIcon={AiOutlineSearch}
+            className="hidden lg:inline "
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            className="absolute inset-y-0 right-0 w-16 bg-transparent cursor-pointer"
+            type="submit"
+          />
+        </form>
+        <Button className="w-12 h-10 lg:hidden" color="gray" pill>
+          <AiOutlineSearch />
         </Button>
-        {currentUser ? (
-          <Dropdown
-            arrowIcon={false}
-            inline
-            label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
-            }
+
+        <div className="flex gap-2 md:order-2">
+          <Button
+            className="w-12 h-10 hidden sm:inline"
+            color="gray"
+            pill
+            onClick={() => dispatch(toggleTheme())}
           >
-            <Dropdown.Header>
-              <span className="block text-sm">@{currentUser.username}</span>
-              <span className="block text-sm font-medium truncate">
-                {currentUser.email}
-              </span>
-            </Dropdown.Header>
-            <Link to={"/dashboard?tab=profile"}>
-              <Dropdown.Item>Profile</Dropdown.Item>
+            {theme === "light" ? <FaSun /> : <FaMoon />}
+          </Button>
+          {currentUser ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar alt="user" img={currentUser.profilePicture} rounded />
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">@{currentUser.username}</span>
+                <span className="block text-sm font-medium truncate">
+                  {currentUser.email}
+                </span>
+              </Dropdown.Header>
+              <Link to={"/dashboard?tab=profile"}>
+                <Dropdown.Item>Profile</Dropdown.Item>
+              </Link>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <Link to="/sign-in">
+              <Button gradientDuoTone="purpleToBlue" outline>
+                Sign In
+              </Button>
             </Link>
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
-          </Dropdown>
-        ) : (
-          <Link to="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign In
-            </Button>
+          )}
+          <Navbar.Toggle />
+        </div>
+        <Navbar.Collapse>
+          <Navbar.Link active={path === "/"} as={"div"}>
+            <Link to="/">Home</Link>
+          </Navbar.Link>
+          <Navbar.Link active={path === "/about"} as={"div"}>
+            <Link to="/about">About</Link>
+          </Navbar.Link>
+        </Navbar.Collapse>
+      </Navbar>
+      <div className="p-2 flex justify-between gap-5 overflow-hidden  border-y border-slate-200 ">
+        {category.map((cat) => (
+          <Link
+            to={`/search?category=${cat.value}`}
+            className="p-2  uppercase font-semibold text-sm hover:text-[#e68e73]"
+            id={cat.value}
+          >
+            {cat.label}
           </Link>
-        )}
-        <Navbar.Toggle />
+        ))}
       </div>
-      <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={"div"}>
-          <Link to="/">Home</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={"div"}>
-          <Link to="/about">About</Link>
-        </Navbar.Link>
-      </Navbar.Collapse>
-    </Navbar>
+    </>
   );
 }
 
