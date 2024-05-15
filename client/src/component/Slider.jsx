@@ -2,7 +2,7 @@ import React from "react";
 
 const Slider = () => {
   return (
-    <div class="h-[210vh] flex flex-col ">
+    <div class="h-[210vh] flex flex-col relative bg-white z-10">
       <div className="h-[140vh] -mb-[70vh] ">
         <div class="h-[70vh] flex  ">
           <div className=" w-1/2   p-4 flex flex-col  justify-between gap-1">

@@ -9,8 +9,9 @@ import {
 } from "react-icons/bs";
 export default function FooterCom() {
   return (
-    <Footer container className=" bg-[#e6b798]">
-      <div className="w-full max-w-7xl mx-auto">
+    <Footer container className=" flex flex-col bg-[#e6b798] -mt-[100vh] -z-10">
+      <div className="w-full h-[100vh] "></div>
+      <div className="w-full max-w-7xl mx-auto sticky bottom-0">
         <div className="grid w-full justify-between sm:flex md:grid-cols-1">
           <div className="mt-5">
             <Link

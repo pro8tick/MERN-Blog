@@ -7,14 +7,26 @@ import { useEffect, useState } from "react";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
 function Header() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const path = useLocation().pathname;
   const [category, setCategory] = useState([]);
-  const location = useLocation();
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
-  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     const fetchCategory = async () => {
       const res = await fetch("/api/category");
@@ -24,21 +36,6 @@ function Header() {
 
     fetchCategory();
   }, []);
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(location.search);
-    urlParams.set("searchTerm", searchTerm);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
-  };
 
   const handleSignout = async () => {
     try {
@@ -58,7 +55,7 @@ function Header() {
 
   return (
     <>
-      <Navbar className="border-b-2 dark:bg-gradient-to-r from-gray-500 via-gray-800 to-gray-500">
+      <Navbar className="border-b-2 dark:bg-gradient-to-r from-gray-500 via-gray-800 to-gray-500 sticky top-0 z-40">
         <Link
           to="/"
           className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:white"
@@ -66,10 +63,12 @@ function Header() {
           <img
             src="/logo-no-background.png"
             alt="I am live"
-            className="w-[10rem] h-auto"
+            className={`w-[15rem] ease-in duration-700 ${
+              scrollY > 10 ? "w-[9rem]" : ""
+            }  h-auto ml-7`}
           />
         </Link>
-        <form onSubmit={handleSubmit} className="relative">
+        {/* <form onSubmit={handleSubmit} className="relative">
           <TextInput
             type="text"
             placeholder="Search.."
@@ -85,7 +84,7 @@ function Header() {
         </form>
         <Button className="w-12 h-10 lg:hidden" color="gray" pill>
           <AiOutlineSearch />
-        </Button>
+        </Button> */}
 
         <div className="flex gap-2 md:order-2">
           <Button
@@ -103,6 +102,7 @@ function Header() {
               label={
                 <Avatar alt="user" img={currentUser.profilePicture} rounded />
               }
+              className="z-30"
             >
               <Dropdown.Header>
                 <span className="block text-sm">@{currentUser.username}</span>
@@ -131,6 +131,9 @@ function Header() {
           </Navbar.Link>
           <Navbar.Link active={path === "/about"} as={"div"}>
             <Link to="/about">About</Link>
+          </Navbar.Link>
+          <Navbar.Link active={path === "/contact"} as={"div"}>
+            <Link to="/contact">Contact</Link>
           </Navbar.Link>
         </Navbar.Collapse>
       </Navbar>
