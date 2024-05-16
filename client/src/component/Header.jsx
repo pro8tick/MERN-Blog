@@ -135,13 +135,25 @@ function Header() {
           <Navbar.Link active={path === "/contact"} as={"div"}>
             <Link to="/contact">Contact</Link>
           </Navbar.Link>
+          <h3 className="mt-2 md:hidden">Categories</h3>
+          {category.map((cat) => (
+            <Navbar.Link
+              active={path === "/search?category=${cat.value}"}
+              as={"div"}
+              className="block md:hidden"
+            >
+              <Link to={`/search?category=${cat.value}`} id={cat.value}>
+                {cat.label}
+              </Link>
+            </Navbar.Link>
+          ))}
         </Navbar.Collapse>
       </Navbar>
-      <div className="p-2 flex justify-between gap-5 overflow-hidden  border-y border-slate-200 ">
+      <div className="p-2  hidden md:flex justify-around md:gap-5 overflow-hidden  border-y border-slate-200">
         {category.map((cat) => (
           <Link
             to={`/search?category=${cat.value}`}
-            className="p-2  uppercase font-semibold text-sm hover:text-[#e68e73]"
+            className="p-2  uppercase font-semibold text-xs hover:text-[#e68e73]"
             id={cat.value}
           >
             {cat.label}

@@ -92,3 +92,57 @@ h5 {
         /* Additional styles for mobile */
     }
 }
+
+
+.slide-up {
+    overflow: hidden;
+    animation: slideUp 2.5s ease, fadeIn 1.5s ease;
+}
+
+.slide-up2 {
+    overflow: hidden;
+    animation: slideUp 2.5s ease, fadeIn 1.5s ease;
+}
+
+.slide-up3 {
+    overflow: hidden;
+    animation: slideUp 2.5s ease, fadeIn 1.5s ease;
+}
+
+.text-slide {
+    overflow: hidden;
+    animation: fadeIn 1.5s ease-in;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(1000px);
+    }
+
+
+
+
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+
+    75% {
+        opacity: 0.3;
+    }
+
+    85% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
