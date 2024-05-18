@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import { stripHtmlTags } from "../pages/Home";
-
+import { motion } from "framer-motion";
+import { fadeIn } from "../utils/motion";
 export default function PostCard({ post }) {
   return (
-    <div className="group relative w-[95vw] mx-auto  dark:bg-slate-600  h-[600px] overflow-hidden rounded-lg sm:w-[430px] transition-all ">
+    <motion.div
+      variants={fadeIn("up", "spring", 0.5, 0.75)}
+      initial="hidden"
+      whileInView="show"
+      className="group relative w-[95vw] mx-auto  dark:bg-slate-600  h-[600px] overflow-hidden rounded-lg sm:w-[430px] transition-all "
+    >
       <Link to={`/post/${post.slug}`} className="block">
         <img
           src={post.image}
@@ -28,6 +34,6 @@ export default function PostCard({ post }) {
           Read article
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }

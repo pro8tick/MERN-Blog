@@ -1,4 +1,5 @@
 import { Button, Select, TextInput } from "flowbite-react";
+import { AiOutlineSearch } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "../component/PostCard";
@@ -7,7 +8,7 @@ export default function Search() {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
     sort: "desc",
-    category: "uncategorized",
+    category: "all",
   });
 
   const [posts, setPosts] = useState([]);
@@ -74,7 +75,7 @@ export default function Search() {
       setSidebarData({ ...sidebarData, sort: order });
     }
     if (e.target.id === "category") {
-      const category = e.target.value || "uncategorized";
+      const category = e.target.value;
       setSidebarData({ ...sidebarData, category });
     }
   };
@@ -84,6 +85,7 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("searchTerm", sidebarData.searchTerm);
     urlParams.set("sort", sidebarData.sort);
+
     urlParams.set("category", sidebarData.category);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
@@ -111,36 +113,37 @@ export default function Search() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row bg-inherit  relative z-10 ">
       <div className="p-7 border-b shadow-md shadow-cyan-500/50 md:border-r md:min-h-screen">
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-          <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap font-semibold">
-              Search Term:
+          <div className="flex flex-col gap-0">
+            <label className="whitespace-nowrap font-semibold  text-sm">
+              Search
             </label>
             <TextInput
               placeholder="Search..."
               id="searchTerm"
-              type="text"
+              type="search"
+              icon={AiOutlineSearch}
               value={sidebarData.searchTerm}
               onChange={handleChange}
             />
           </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold">Sort:</label>
+          <div className="flex flex-col ">
+            <label className="font-semibold text-sm">Sort:</label>
             <Select onChange={handleChange} value={sidebarData.sort} id="sort">
               <option value="desc">Latest</option>
               <option value="asc">Oldest</option>
             </Select>
           </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold">Category:</label>
+          <div className="flex flex-col ">
+            <label className="font-semibold text-sm">Category:</label>
             <Select
               onChange={handleChange}
               value={sidebarData.category}
               id="category"
             >
-              <option value="uncategorized" id="uncat">
+              <option value="all" id="uncat">
                 Not Selected
               </option>
               {category &&
@@ -156,10 +159,8 @@ export default function Search() {
           </Button>
         </form>
       </div>
-      <div className="w-full">
-        <h1 className="text-3xl font-semibold  shadow-inner  shadow-cyan-200/50 p-3 mt-5 ">
-          Posts results:
-        </h1>
+      <div className="w-full relative z-20">
+        <h1 className="text-3xl font-semibold p-4">Posts results:</h1>
         <div className="p-7 flex flex-wrap gap-4">
           {!loading && posts.length === 0 && (
             <p className="text-xl text-gray-500">No posts found.</p>
